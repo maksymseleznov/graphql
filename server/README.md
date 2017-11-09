@@ -1,21 +1,21 @@
-# {
-#   getUsers {
-#     id
-#     firstName
-#   }
-# }
+ {
+   getUsers {
+     id
+     firstName
+   }
+ }
 
-# mutation {
-#   createEvent(
-#     input: {
-#       name: "new event3", 
-#       createdBy: "5a02603639cbb22a325e561a"
-#     }
-#   ) {
-#     id
-#     name 
-#   }
-# }
+ mutation {
+   createEvent(
+     input: {
+       name: "new event3", 
+       createdBy: "5a02603639cbb22a325e561a"
+     }
+   ) {
+     id
+     name 
+   }
+ }
 
 
 {
