@@ -50,15 +50,32 @@ export default `
     date: Date
   }
 
+  type Error {
+    path: String!
+    message: String
+  }
+
+  type ResponseEvent {
+    ok: Boolean!
+    event: Event
+    errors: [Error!] 
+  }
+
+  type ResponseUser {
+    ok: Boolean!
+    user: User
+    errors: [Error!] 
+  }
+
   type Mutation {
 
-    createUser(input: UserInput): User
-    updateUser(id: ID!, input: UserInput): User
-    deleteUser(id: ID!): Boolean!
+    createUser(input: UserInput): ResponseUser!
+    updateUser(id: ID!, input: UserInput): ResponseUser!
+    deleteUser(id: ID!): ResponseUser!
 
-    createEvent(input: EventInput): Event
-    updateEvent(id: ID!, input: EventInput): Event
-    deleteEvent(id: ID!): Boolean!
+    createEvent(input: EventInput): ResponseEvent!
+    updateEvent(id: ID!, input: EventInput): ResponseEvent!
+    deleteEvent(id: ID!): ResponseEvent!
 
   }
   
