@@ -1,6 +1,6 @@
 // https://github.com/sayden/graphql-mongodb-example/blob/master/Models/User/UserSchema.es6
 
-import { mongodb } from '../services';
+import { mongodb, websocket } from '../services';
 
 import { getProjection } from '../utils';
 
@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     required: true
   },
   date: {
-    type: Date, 
+    type: Date,
     default: Date.now
   }
 },{
@@ -88,15 +88,28 @@ class User {
         .catch(error => reject(error))
     })
   }
-  
+
   static createUser (parent, { input }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Users.create(input)
-        .then(data => resolve(data))
-        .catch(error => reject(error))
+        .then(data => {
+          websocket.publish('createdUser', { createdUser: data });
+          resolve({
+            ok: true,
+            user: data,
+            errors:[]
+          })
+        })
+        .catch(error => {
+          reject({
+            ok: false,
+            user: null,
+            errors:[error]
+          })
+        })
     })
   }
-  
+
   static updateUser (parent, { id, input }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Users.findByIdAndUpdate(id, input, { new: true, upsert: false, multi: false })
@@ -104,7 +117,7 @@ class User {
         .catch(error => reject(error))
     })
   }
-    
+
   static deleteUser (parent, { id }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Users.remove({ _id: ObjectId(id) })
@@ -112,6 +125,18 @@ class User {
         .catch(error => reject(error))
     })
   }
+
+  static subscribe () {
+    return websocket.asyncIterator('createdUser')
+  }
+
+  // subscribe: withFilter(
+  //   () => websocket.asyncIterator('createdUser'),
+  //   (payload, variables) => {
+  //     console.log(payload, variables);
+  //     return true;
+  //   }
+  // ),
 }
 
 UserSchema.loadClass(User);

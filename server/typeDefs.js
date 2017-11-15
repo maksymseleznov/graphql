@@ -58,13 +58,13 @@ export default `
   type ResponseEvent {
     ok: Boolean!
     event: Event
-    errors: [Error!] 
+    errors: [Error!]
   }
 
   type ResponseUser {
     ok: Boolean!
     user: User
-    errors: [Error!] 
+    errors: [Error!]
   }
 
   type Mutation {
@@ -78,11 +78,16 @@ export default `
     deleteEvent(id: ID!): ResponseEvent!
 
   }
-  
-  type Subscription {
-    userCreated(firstName: String!): User
+
+  type Result {
+    id: String
   }
-  
+
+  type Subscription {
+    createdUser: User
+    # messageAdded(channelID: ID!): Result
+  }
+
   schema {
     query: Query
     mutation: Mutation

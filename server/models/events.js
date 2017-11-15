@@ -1,6 +1,6 @@
 // https://github.com/sayden/graphql-mongodb-example/blob/master/Models/User/UserSchema.es6
 
-import { mongodb } from '../services';
+import { mongodb, websocket } from '../services';
 
 import { getProjection } from '../utils';
 
@@ -9,20 +9,20 @@ const { Schema } = mongodb;
 export const { ObjectId } = Schema;
 
 const EventSchema = new Schema({
-  createdBy: { 
-    type: ObjectId, 
-    ref: 'User' 
+  createdBy: {
+    type: ObjectId,
+    ref: 'User'
   },
   name: {
     type: String,
     required: true
   },
-  users: [{ 
-    type: ObjectId, 
-    ref: 'User' 
+  users: [{
+    type: ObjectId,
+    ref: 'User'
   }],
   date: {
-    type: Date, 
+    type: Date,
     default: Date.now
   }
 },{
@@ -86,7 +86,7 @@ class Event {
         .catch(error => reject(error))
     })
   }
-  
+
   static createEvent (parent, { input }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Events.create(input)
@@ -94,7 +94,7 @@ class Event {
         .catch(error => reject(error))
     })
   }
-  
+
   static updateEvent (parent, { id, input }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Events.findByIdAndUpdate(id, input, { new: true, upsert: false, multi: false })
@@ -102,7 +102,7 @@ class Event {
         .catch(error => reject(error))
     })
   }
-    
+
   static deleteEvent (parent, { id }, { Models }, info) {
     return new Promise((resolve, reject) => {
       Models.Events.remove({ _id: ObjectId(id) })

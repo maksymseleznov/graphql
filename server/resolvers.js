@@ -1,3 +1,5 @@
+import { withFilter } from 'graphql-subscriptions';
+import { websocket } from './services';
 
 import { GraphQLScalarType } from 'graphql';
 
@@ -9,16 +11,31 @@ export default {
     name: 'Date',
     description: 'Date custom scalar type',
     parseValue(value) {
-      console.log("parseValue", parseValue);
+      // console.log("parseValue", value);
+      // Implement your own behavior here by setting the 'result' variable
       return new Date(value); // value from the client
     },
     serialize(value) {
-      console.log("serialize", value);
+      // console.log("serialize", value);
+      // Implement your own behavior here by setting the 'result' variable
       return value.getTime(); // value sent to the client
     },
     parseLiteral(ast) {
-      console.log(parseLiteral, ast);
-      return ast;
+      // console.log("parseLiteral", ast);
+
+      let value;
+
+      switch (ast.kind) {
+        // Implement your own behavior here by returning what suits your needs
+        // depending on ast.kind
+        case "StringValue":
+          value = new Date(ast.value);
+          break;
+        default:
+          value = null;
+      }
+
+      return value;
     },
   }),
 
@@ -48,4 +65,15 @@ export default {
     deleteEvent: Events.deleteEvent,
 
   },
+
+  Subscription: {
+    createdUser: {
+      // resolve: (payload, args, context, info) => {
+      //   // Manipulate and return the new value
+      //   // console.log("resolve createdUser", payload, args, context, info)
+      //   return payload;
+      // },
+      subscribe: Users.subscribe,
+    },
+  }
 }
