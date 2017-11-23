@@ -34,7 +34,6 @@ export default `
 
     getEvents(query: EventQueryInput, skip: Int, limit: Int): [Event!]!
     getEvent(id: ID!): Event
-
   }
 
   input UserInput {
@@ -76,7 +75,6 @@ export default `
     createEvent(input: EventInput): ResponseEvent!
     updateEvent(id: ID!, input: EventInput): ResponseEvent!
     deleteEvent(id: ID!): ResponseEvent!
-
   }
 
   type Result {
