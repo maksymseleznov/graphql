@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js"
+    "start": "nodemon --exec babel-node index.js",
+    "install-step1": "yarn add babel-cli babel-preset-env babel-preset-stage-3 nodemon --dev",
+    "install-step2": "yarn add body-parser express graphql graphql-server-express graphql-subscriptions graphql-tools mongoose subscriptions-transport-ws"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -17,9 +19,9 @@
     "express": "^4.16.2",
     "graphql": "^0.11.7",
     "graphql-server-express": "^1.2.0",
-    "graphql-subscriptions": "^0.5.4",
-    "graphql-tools": "^2.7.2",
-    "mongoose": "^4.13.1",
+    "graphql-subscriptions": "^0.5.5",
+    "graphql-tools": "^2.8.0",
+    "mongoose": "^4.13.4",
     "subscriptions-transport-ws": "^0.9.1"
   }
 }

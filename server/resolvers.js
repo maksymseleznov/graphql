@@ -10,17 +10,17 @@ export default {
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
-    parseValue(value) {
+    parseValue (value) {
       // console.log("parseValue", value);
       // Implement your own behavior here by setting the 'result' variable
       return new Date(value); // value from the client
     },
-    serialize(value) {
+    serialize (value) {
       // console.log("serialize", value);
       // Implement your own behavior here by setting the 'result' variable
       return value.getTime(); // value sent to the client
     },
-    parseLiteral(ast) {
+    parseLiteral (ast) {
       // console.log("parseLiteral", ast);
 
       let value;
@@ -28,7 +28,7 @@ export default {
       switch (ast.kind) {
         // Implement your own behavior here by returning what suits your needs
         // depending on ast.kind
-        case "StringValue":
+        case 'StringValue':
           value = new Date(ast.value);
           break;
         default:
