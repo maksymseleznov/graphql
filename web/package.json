@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14"
+    "apollo-client": "^2.0.3",
+    "graphql": "^0.11.7",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-scripts": "1.0.17"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_URL='http://localhost:3000' HOST='localhost' PORT=3001 react-scripts start",
+    "build:development": "REACT_APP_URL='http://localhost' react-scripts build",
+    "build:production": "REACT_APP_URL='https://domain.com' react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
