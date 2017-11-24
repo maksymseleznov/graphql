@@ -20,6 +20,26 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
+// app.use(function (req, res, next) {
+//   console.log("HOST", req.headers.host, "[" + req.method + "]", req.originalUrl);
+//   console.log("headers", req.headers);
+//   console.log("body", req.body);
+//   console.log("params", req.params);
+//   console.log("query", req.query);
+//   next();
+// });
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, *');
+  next();
+});
+
+app.options('*', function(req, res, next){
+  res.end();
+})
+
 app.use(bodyParser.json());
 
 app.use('/graphql', graphqlExpress({
