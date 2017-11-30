@@ -55,7 +55,7 @@ class User {
         }
       }
 
-      console.log('getUsers', parent, query);
+      console.log('getUsers', parent, query, skip, limit);
 
       Models.Users.find(query)
         .select(projection)

@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 
-// import { graphql } from 'react-apollo'
-// import gql from 'graphql-tag'
-
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Route,
   Switch,
   Redirect
 } from 'react-router-dom'
 
-import Test from './pages/Test'
+import Users from './pages/Users'
+import Events from './pages/Events'
 
 class Layout extends Component {
 
@@ -20,23 +18,31 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-
   }
 
   render() {
     return (
-      <Router>
-        <Route path="/histology" render={ ({ match, location, history }) =>
+      <BrowserRouter>
+        <Route path="/list" render={ ({ match, location, history }) =>
           <Switch>
-            <Route path="/histology/pending" render={ ({ match, location, history }) => 
-              <Test match={ match } location={ location } history={ history } />
+            <Route path="/list/users" render={ ({ match, location, history }) => 
+              <Users match={ match } location={ location } history={ history } 
+                // graphql query
+                query={{ firstName: "vlad" }}
+              />
+            } />
+            <Route path="/list/events" render={ ({ match, location, history }) => 
+              <Events match={ match } location={ location } history={ history } 
+                // graphql query
+                query={{ firstName: "vlad" }}
+              />
             } />
             <Route render={ ({ match, location, history }) =>
-              <Redirect to="/histology/pending"/>
+              <Redirect to="/list/users" />
             } />
           </Switch>
         }/>
-      </Router>
+      </BrowserRouter>
     )
   }
 }
