@@ -1,10 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "author": "Maksym Seleznov",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
+    "start": "NODE_ENV=development nodemon --exec babel-node server.js",
     "install-step1": "yarn add babel-cli babel-preset-env babel-preset-stage-3 nodemon --dev",
     "install-step2": "yarn add body-parser express graphql graphql-server-express graphql-subscriptions graphql-tools mongoose subscriptions-transport-ws"
   },

@@ -1,14 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react';
 
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import Users from './pages/Users'
-import Events from './pages/Events'
+import * as Pages from './Pages';
 
 class Layout extends Component {
 
@@ -23,25 +17,33 @@ class Layout extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Route path="/list" render={ ({ match, location, history }) =>
-          <Switch>
-            <Route path="/list/users" render={ ({ match, location, history }) => 
-              <Users match={ match } location={ location } history={ history } 
-                // graphql query
-                query={{ firstName: "vlad" }}
-              />
-            } />
-            <Route path="/list/events" render={ ({ match, location, history }) => 
-              <Events match={ match } location={ location } history={ history } 
-                // graphql query
-                query={{ firstName: "vlad" }}
-              />
-            } />
-            <Route render={ ({ match, location, history }) =>
-              <Redirect to="/list/users" />
-            } />
-          </Switch>
-        }/>
+        <Fragment>
+          <Route path="/list" render={ ({ match, location, history }) =>
+            <Switch>
+              <Route path="/list/users" render={ ({ match, location, history }) => 
+                <Pages.Users match={ match } location={ location } history={ history } 
+                  // graphql query
+                  query={{ firstName: "max" }}
+                />
+              } />
+              <Route path="/list/events" render={ ({ match, location, history }) => 
+                <Pages.Events match={ match } location={ location } history={ history } 
+                  // graphql query
+                  query={{ firstName: "vlad" }}
+                />
+              } />
+              <Route render={ ({ match, location, history }) =>
+                <Redirect to="/list/users" />
+              } />
+            </Switch>
+          }/>
+          <Route path="/sign-up" render={ ({ match, location, history }) => 
+            <Pages.SignUp match={ match } location={ location } history={ history } />
+          } />
+          <Route exact path="/" render={ ({ match, location, history }) => 
+            <Redirect to="/list" />
+          } />
+        </Fragment>
       </BrowserRouter>
     )
   }

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import { Button } from 'semantic-ui-react'
+
 const ExchangeRateQuery = gql`
-  query ($query: UserQueryInput, $skip: Int, $limit: Int) {
+  query users ($query: UserQueryInput, $skip: Int, $limit: Int) {
     getUsers (query: $query, skip: $skip, limit: $limit) {
       id
       firstName
@@ -19,15 +21,16 @@ const ExchangeRateList = ({
   error,
   users,
 }) => (
-  <div>
+  <Fragment>
+    <Button>Click Here</Button>
     { loading ? (
       <div>Loading...</div>
     ) : error ? (
-      <div>{ error && `An error has occurred: ${error}` }</div>
+      <div>{ `An error has occurred: ${error}` }</div>
     ) : (
       users.map(({ firstName, lastName }, idx, rateArr) => <div key={ idx }>{ `${firstName} ${lastName}` }</div>)
     )}
-  </div>
+  </Fragment>
 );
 
 export default graphql(ExchangeRateQuery, {
