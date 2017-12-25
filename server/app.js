@@ -4,25 +4,13 @@ import { Server } from 'http';
 
 import express from 'express';
 
-import { domain } from './config';
-
-import vhost from './vhost';
-
-// make one node, one vhost(domain, one {api:nodeRESTfulApi});
-
-import nodeWWW from './node-www';
-import nodeRESTfulApi from './node-restful-api';
-import nodeGraphQLApi from './node-graphql-api';
+import apps from './apps';
 
 /**********************************************************************************/
 
 const app = express();
 
-// vHosts
-
-app.use(vhost(domain.www, nodeWWW));
-app.use(vhost(domain.api, nodeRESTfulApi));
-app.use(vhost(domain.graphql, nodeGraphQLApi));
+app.use(apps);
 
 // Debug
 
@@ -31,10 +19,10 @@ app.get('*', (req, res, next) => {
   next();
 });
 
-// app.use((req, res, next) => {
-//   console.log(`HOST ${req.headers.host} [${req.method}] ${req.originalUrl}`);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log(`HOST ${req.headers.host} [${req.method}] ${req.originalUrl}`);
+  next();
+});
 
 /**********************************************************************************/
 
@@ -42,9 +30,39 @@ const server = new Server(app);
 
 /**********************************************************************************/
 
-// import socket from './socket';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from 'graphql-tools';
+import { execute, subscribe } from 'graphql';
 
-// const socket = require('./socket')(server); // , { serveClient: false }
+import typeDefs from './middlewares/graphql/v0/typeDefs';
+import resolvers from './middlewares/graphql/v0/resolvers';
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+const webSocket = new SubscriptionServer({
+  schema,
+  execute,
+  subscribe,
+
+  onConnect: () => console.log("onConnect to WebSocket")
+
+  // onConnect: (connectionParams, webSocket) => {
+  //   console.log("onConnect", connectionParams, webSocket)
+  // },
+  // onOperation: (message, params, webSocket) => {
+  //   console.log("onOperation", message, params, webSocket);
+  // },
+  // onOperationDone: (webSocket) => {
+  //   console.log("onOperationDone", webSocket);
+  // },
+  // onDisconnect: (webSocket) => {
+  //   // console.log("onDisconnect", webSocket);
+  // }
+
+}, {
+  server,
+  path: '/subscription',
+});
 
 /**********************************************************************************/
 

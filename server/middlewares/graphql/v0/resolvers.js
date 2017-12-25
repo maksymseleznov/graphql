@@ -1,9 +1,8 @@
 import { withFilter } from 'graphql-subscriptions';
-import { websocket } from './services';
-
 import { GraphQLScalarType } from 'graphql';
 
-import { Users, Events } from './models';
+import { websocket } from '../../../services';
+import { Users, Events } from '../../../models';
 
 export default {
 
